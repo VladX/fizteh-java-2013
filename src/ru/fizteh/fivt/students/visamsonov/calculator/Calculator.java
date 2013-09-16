@@ -1,4 +1,4 @@
-package calculator;
+package ru.fizteh.fivt.students.visamsonov.calculator;
 
 import java.util.Stack;
 import java.util.Collections;
@@ -21,7 +21,8 @@ public class Calculator {
 		return 1; /* higher priority for "*" and "/" */
 	}
 	
-	private static Stack<String> parseToReversePolish (final String expression) { /* simple version of Shunting-yard algorithm */
+	private static Stack<String> parseToReversePolish (final String expression) { /* simple version of Shunting-yard
+	                                                                                 algorithm */
 		Stack<String> operations = new Stack<String>();
 		Stack<String> reversePolish = new Stack<String>();
 		
@@ -39,7 +40,8 @@ public class Calculator {
 				operations.pop();
 			}
 			else if (isOperator(token)) {
-				while (!operations.empty() && isOperator(operations.lastElement()) && priority(token) <= priority(operations.lastElement())) {
+				while (!operations.empty() && isOperator(operations.lastElement()) &&
+				       priority(token) <= priority(operations.lastElement())) {
 					reversePolish.push(operations.pop());
 				}
 				operations.push(token);
