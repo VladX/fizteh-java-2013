@@ -7,8 +7,8 @@ import java.math.BigInteger;
 
 public class Calculator {
 	
-	private static int inputRadix = 17; /* Input radix */
-	private static int outputRadix = 17; /* Output radix */
+	private static int inputRadix = 17;
+	private static int outputRadix = 17;
 	
 	private static boolean isOperator (final String token) {
 		return "+-*/".contains(token);
@@ -21,23 +21,31 @@ public class Calculator {
 		return 1; /* higher priority for "*" and "/" */
 	}
 	
-	private static Stack<String> parseToReversePolish (final String expression) { /* simple version of Shunting-yard
-	                                                                                 algorithm */
+	/* simple version of Shunting-yard algorithm */
+	private static Stack<String> parseToReversePolish (final String expression) {
 		Stack<String> operations = new Stack<String>();
 		Stack<String> reversePolish = new Stack<String>();
 		
 		StringTokenizer st = new StringTokenizer(expression, "()+-*/", true);
+		boolean previousWasOperator = false;
 		
 		while (st.hasMoreTokens()) {
 			String token = st.nextToken();
 			if (token.equals("(")) {
 				operations.push(token);
+				previousWasOperator = false;
 			}
 			else if (token.equals(")")) {
 				while (!operations.empty() && !operations.lastElement().equals("(")) {
 					reversePolish.push(operations.pop());
 				}
 				operations.pop();
+				previousWasOperator = false;
+			}
+			else if (previousWasOperator && token.equals("-")) {
+				token = st.nextToken();
+				reversePolish.push("-" + token);
+				previousWasOperator = false;
 			}
 			else if (isOperator(token)) {
 				while (!operations.empty() && isOperator(operations.lastElement()) &&
@@ -45,9 +53,11 @@ public class Calculator {
 					reversePolish.push(operations.pop());
 				}
 				operations.push(token);
+				previousWasOperator = true;
 			}
 			else { /* it is a number */
 				reversePolish.push(token);
+				previousWasOperator = false;
 			}
 		}
 		while (!operations.empty()) {
@@ -103,7 +113,7 @@ public class Calculator {
 		try {
 			System.out.println(calculate(expression));
 		}
-		catch (java.util.EmptyStackException e) { /* nothing on stack */
+		catch (java.util.EmptyStackException | java.lang.NumberFormatException e) {
 			System.err.println("Error: mathematical expression is incorrect.");
 		}
 	}
