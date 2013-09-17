@@ -3,6 +3,8 @@ package ru.fizteh.fivt.students.visamsonov.calculator;
 import java.util.Stack;
 import java.util.Collections;
 import java.util.StringTokenizer;
+import java.util.EmptyStackException;
+import java.lang.NumberFormatException;
 import java.math.BigInteger;
 
 public class Calculator {
@@ -115,6 +117,8 @@ public class Calculator {
 		}
 		catch (java.util.EmptyStackException | java.lang.NumberFormatException e) {
 			System.err.println("Error: mathematical expression is incorrect.");
+			System.exit(1);
 		}
+		System.exit(0);
 	}
 }
