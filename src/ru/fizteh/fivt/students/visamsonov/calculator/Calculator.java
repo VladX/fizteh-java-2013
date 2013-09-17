@@ -115,7 +115,7 @@ public class Calculator {
 		try {
 			System.out.println(calculate(expression));
 		}
-		catch (java.util.EmptyStackException | java.lang.NumberFormatException e) {
+		catch (EmptyStackException | NumberFormatException e) {
 			System.err.println("Error: mathematical expression is incorrect.");
 			System.exit(1);
 		}
